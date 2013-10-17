@@ -191,36 +191,38 @@ package com.kurst.cfwrk.system {
 			
 			assertStageInitialised();
 
-			var isLandscape : Boolean;
-			
-			switch( m_stage.deviceOrientation ){
-				
-				case StageOrientation.ROTATED_RIGHT :
-				case StageOrientation.ROTATED_RIGHT :
-				
-					m_orientation 	= DeviceOrientation.LANDSCAPE;//landscape;
-					isLandscape 	= true;
-					
-					break;
-					
-				case StageOrientation.UPSIDE_DOWN: 
-				case StageOrientation.DEFAULT :
-				
-					m_orientation 	= DeviceOrientation.PORTRAIT;//landscape;
-					isLandscape 	= false; 
-					
-					break;
-					
-				case StageOrientation.UNKNOWN : 
-					
-					// if unknown user default / user value
-					isLandscape 	= ( m_default_orientation == DeviceOrientation.LANDSCAPE); 
-					break;
-					
-			}
-			
-			return isLandscape;
+			var isLandscape : Boolean = (m_default_orientation == DeviceOrientation.LANDSCAPE);
 
+            try{
+                switch( m_stage.deviceOrientation ){
+
+                    case StageOrientation.ROTATED_RIGHT :
+                    case StageOrientation.ROTATED_RIGHT :
+
+                        m_orientation 	= DeviceOrientation.LANDSCAPE;//landscape;
+                        isLandscape 	= true;
+
+                        break;
+
+                    case StageOrientation.UPSIDE_DOWN:
+                    case StageOrientation.DEFAULT :
+
+                        m_orientation 	= DeviceOrientation.PORTRAIT;//landscape;
+                        isLandscape 	= false;
+
+                        break;
+
+                    case StageOrientation.UNKNOWN :
+
+                        // if unknown user default / user value
+                        break;
+
+                }
+            }catch (e: Error) {
+
+            }
+
+			return isLandscape;
 		}
 		/**
 		 * Determines if this device is probably a tablet, based on the physical
@@ -255,7 +257,7 @@ package com.kurst.cfwrk.system {
 			
 			assertStageInitialised();
 			
-			var platform : String = deviceInformation( ).os;
+			var platform : String = deviceInformation( ).device;
 			return ( platform == DeviceList.DESKTOP || platform == DeviceList.DESKTOP );
 			
 		}
@@ -423,7 +425,16 @@ package com.kurst.cfwrk.system {
 					result.os			= OSList.IOS;
 					result.supported	= true; 
 					
-				} else if ( hwModel.indexOf( "iPod1" ) != -1 ) {// NEEDS TESTING
+				} else if ( hwModel.indexOf( "iPhone6" ) != -1 ) {// NEEDS TESTING
+
+                    result.width 		= 1136;
+                    result.height 		= 640;
+                    result.device 		= DeviceList.IPHONE_5S;
+                    result.scale 		= 2;
+                    result.os			= OSList.IOS;
+                    result.supported	= true;
+
+                } else if ( hwModel.indexOf( "iPod1" ) != -1 ) {// NEEDS TESTING
 	
 					result.width 		= 480;
 					result.height 		= 320;
